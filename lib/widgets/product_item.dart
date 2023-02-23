@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/screens/product_info_screen.dart';
 
 class ProductItem extends StatelessWidget {
   final String id;
@@ -31,9 +32,14 @@ class ProductItem extends StatelessWidget {
             color: Theme.of(context).accentColor,
           ),
         ),
-        child: Image.network(
-          imageUrl,
-          fit: BoxFit.cover,
+        child: GestureDetector(
+          onTap: () {
+            Navigator.of(context).pushNamed(ProductInfoScreen.routeName, arguments: id);
+          },
+          child: Image.network(
+            imageUrl,
+            fit: BoxFit.cover,
+          ),
         ),
       ),
     );
