@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import './product.dart';
+import 'product_provider.dart';
 
 class Products with ChangeNotifier {
   // ignore: prefer_final_fields
@@ -38,12 +38,27 @@ class Products with ChangeNotifier {
     ),
   ];
 
+  var _showFavouritesOnly = false;
+
   List<Product> get items {
+    if (_showFavouritesOnly) {
+      return _items.where((element) => element.isFavourite).toList();
+    }
     return [..._items];
   }
 
   Product findById(String id) {
     return _items.firstWhere((element) => element.id == id);
+  }
+
+  void showFavouritesOnly() {
+    _showFavouritesOnly = true;
+    notifyListeners();
+  }
+
+  void showAll() {
+    _showFavouritesOnly = false;
+    notifyListeners();
   }
 
   void addProduct() {
