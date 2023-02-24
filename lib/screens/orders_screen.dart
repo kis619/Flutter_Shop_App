@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_app/widgets/app_drawer.dart';
 
 import '../providers/orders_provider.dart' show Orders;
 import '../widgets/order_item.dart';
 
-class OrderScreen extends StatelessWidget {
-  const OrderScreen({super.key});
+class OrdersScreen extends StatelessWidget {
+  static const routeName = '/orders';
+  const OrdersScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +16,7 @@ class OrderScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Your orders'),
       ),
+      drawer: const AppDrawer(),
       body: ListView.builder(
         itemBuilder: (ctx, i) {
           return OrderItem(orders[i]);
