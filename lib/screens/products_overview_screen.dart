@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shop_app/screens/cart_screen.dart';
+// import 'package:shop_app/providers/cart_provider.dart';
 
+import '../providers/cart_provider.dart';
 import '../widgets/products_grid.dart';
+import '../widgets/badge.dart';
 
 enum FilterOptions {
   favourites,
@@ -8,7 +13,7 @@ enum FilterOptions {
 }
 
 class ProductsOverviewScreen extends StatefulWidget {
-  ProductsOverviewScreen({super.key});
+  const ProductsOverviewScreen({super.key});
 
   @override
   State<ProductsOverviewScreen> createState() => _ProductsOverviewScreenState();
@@ -21,7 +26,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('SHOP'),
-        actions: [
+        actions: <Widget>[
           PopupMenuButton(
             onSelected: (selectedValue) {
               setState(() {
@@ -40,6 +45,19 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
                   value: FilterOptions.all, child: Text('Show all')),
             ],
             icon: const Icon(Icons.more_vert),
+          ),
+          Consumer<Cart>(
+            builder: (_, cart, child) => BadgeK(
+              color: Colors.amber,
+              value: cart.countUniqueItems.toString(),
+              child: child as Widget,
+            ),
+            child: IconButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(CartScreen.routeName);
+              },
+              icon: const Icon(Icons.shopping_cart),
+            ),
           )
         ],
       ),
