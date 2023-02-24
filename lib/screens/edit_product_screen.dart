@@ -12,6 +12,19 @@ class _EditProductScreenState extends State<EditProductScreen> {
   final _priceFocusNode = FocusNode();
   final _descriptionFocusNode = FocusNode();
   final _imageUrlController = TextEditingController();
+  final _imageUrlFocusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    _imageUrlFocusNode.addListener(_updateImageUrl);
+  }
+
+  void _updateImageUrl() {
+    if (!_imageUrlFocusNode.hasFocus) {
+      setState(() {});
+    }
+  }
 
   @override
   void dispose() {
@@ -19,6 +32,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
     _priceFocusNode.dispose();
     _descriptionFocusNode.dispose();
     _imageUrlController.dispose();
+    _imageUrlFocusNode.removeListener(_updateImageUrl);
+    _imageUrlFocusNode.dispose();
   }
 
   @override
@@ -83,6 +98,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                       onEditingComplete: () {
                         setState(() {});
                       },
+                      focusNode: _imageUrlFocusNode,
                     ),
                   ),
                 ],
