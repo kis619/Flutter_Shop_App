@@ -23,6 +23,7 @@ class ProductItem extends StatelessWidget {
               onPressed: product.toggleFavouriteStatus,
               icon: Icon(
                   product.isFavourite ? Icons.favorite : Icons.favorite_border),
+              // ignore: deprecated_member_use
               color: Theme.of(context).accentColor,
             ),
           ),
@@ -35,6 +36,7 @@ class ProductItem extends StatelessWidget {
               cart.addItem(product.id, product.price, product.title);
             },
             icon: const Icon(Icons.shopping_cart),
+            // ignore: deprecated_member_use
             color: Theme.of(context).accentColor,
           ),
         ),

@@ -18,6 +18,7 @@ class CartItem extends StatelessWidget {
       key: ValueKey(id),
       direction: DismissDirection.endToStart,
       background: Container(
+        // ignore: deprecated_member_use
         color: Theme.of(context).errorColor,
         alignment: Alignment.centerRight,
         padding: const EdgeInsets.only(right: 20),

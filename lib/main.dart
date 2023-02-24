@@ -27,12 +27,13 @@ class MyApp extends StatelessWidget {
         title: 'MyShop',
         theme: ThemeData(
           primarySwatch: Colors.purple,
+          // ignore: deprecated_member_use
           accentColor: Colors.deepOrange,
           fontFamily: 'Lato',
         ),
-        home: ProductsOverviewScreen(),
+        home: const ProductsOverviewScreen(),
         routes: {
-          ProductInfoScreen.routeName: (ctx) => ProductInfoScreen(),
+          ProductInfoScreen.routeName: (ctx) => const ProductInfoScreen(),
           CartScreen.routeName: (ctx) => const CartScreen(),
         },
       ),

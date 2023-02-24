@@ -63,7 +63,11 @@ class Cart with ChangeNotifier {
   }
 
   void clear() {
+    // print("confusion");
+    // print(_items);
     _items = {};
+    // print("confusion2");
+    // print(_items);
     notifyListeners();
   }
 }
