@@ -26,7 +26,7 @@ class CartItem extends StatelessWidget {
         child: const Icon(Icons.delete, color: Colors.white, size: 40),
       ),
       onDismissed: (direction) {
-        Provider.of<Cart>(context, listen: false).removeItem(productId);
+        Provider.of<Cart>(context, listen: false).removeAllSuchItems(productId);
       },
       child: Card(
         margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 4),
