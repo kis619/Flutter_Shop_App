@@ -9,6 +9,9 @@ import './product_provider.dart';
 class Products with ChangeNotifier {
   // ignore: prefer_final_fields
   List<Product> _items = [];
+  final String? authToken;
+
+  Products(this.authToken, this._items);
 
   List<Product> get items {
     return [..._items];
@@ -24,7 +27,7 @@ class Products with ChangeNotifier {
 
   Future<void> fetchAndSetProducts() async {
     final url = Uri.parse(
-        "https://learning-flutter-72888-default-rtdb.europe-west1.firebasedatabase.app/products.json");
+        "https://learning-flutter-72888-default-rtdb.europe-west1.firebasedatabase.app/products.json?auth=$authToken");
     try {
       final response = await http.get(url);
       final data = jsonDecode(response.body);
@@ -49,7 +52,7 @@ class Products with ChangeNotifier {
 
   Future<void> addProduct(Product product) async {
     final url = Uri.parse(
-        "https://learning-flutter-72888-default-rtdb.europe-west1.firebasedatabase.app/products.json");
+        "https://learning-flutter-72888-default-rtdb.europe-west1.firebasedatabase.app/products.json?auth=$authToken");
     try {
       final response = await http.post(
         url,
@@ -81,7 +84,7 @@ class Products with ChangeNotifier {
     final prodIdx = _items.indexWhere((element) => element.id == id);
     if (prodIdx < 0) return;
     final url = Uri.parse(
-        "https://learning-flutter-72888-default-rtdb.europe-west1.firebasedatabase.app/products/$id.json");
+        "https://learning-flutter-72888-default-rtdb.europe-west1.firebasedatabase.app/products/$id.json?auth$authToken");
     await http.patch(url,
         body: json.encode({
           'title': newProduct.title,
@@ -95,7 +98,7 @@ class Products with ChangeNotifier {
 
   void deleteProduct(String id) {
     final url = Uri.parse(
-        "https://learning-flutter-72888-default-rtdb.europe-west1.firebasedatabase.app/products/$id.json");
+        "https://learning-flutter-72888-default-rtdb.europe-west1.firebasedatabase.app/products/$id.json?auth$authToken");
     final existingProductIndex =
         _items.indexWhere((element) => element.id == id);
     var existingProduct = _items[existingProductIndex];
