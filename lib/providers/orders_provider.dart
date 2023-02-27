@@ -33,7 +33,6 @@ class Orders with ChangeNotifier {
     final response = await http.get(url);
     final data = jsonDecode(response.body);
     if (data == null) return;
-    print(data);
     final List<OrderItem> loadedOrders = [];
 
     data.forEach((orderId, orderData) {

@@ -80,7 +80,6 @@ class Products with ChangeNotifier {
   Future<void> updateProduct(String id, Product newProduct) async {
     final prodIdx = _items.indexWhere((element) => element.id == id);
     if (prodIdx < 0) return;
-    print(prodIdx);
     final url = Uri.parse(
         "https://learning-flutter-72888-default-rtdb.europe-west1.firebasedatabase.app/products/$id.json");
     await http.patch(url,

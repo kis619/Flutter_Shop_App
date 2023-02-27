@@ -98,6 +98,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
         await Provider.of<Products>(context, listen: false)
             .addProduct(_editedProduct);
       } catch (error) {
+        // ignore: prefer_void_to_null
         await showDialog<Null>(
             context: context,
             builder: (ctx) => AlertDialog(
@@ -116,6 +117,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
        setState(() {
         _isLoading = false;
       });
+      // ignore: use_build_context_synchronously
       Navigator.of(context).pop();
   }
 
@@ -213,8 +215,9 @@ class _EditProductScreenState extends State<EditProductScreen> {
                             );
                           },
                           validator: (value) {
-                            if (value == '')
+                            if (value == '') {
                               return 'Please enter a description';
+                            }
                             return null;
                           },
                         ),
@@ -267,8 +270,9 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                     if (value == '') {
                                       return 'Please enter an image Url';
                                     }
-                                    if (!value!.startsWith('http'))
+                                    if (!value!.startsWith('http')) {
                                       return 'Invalid';
+                                    }
                                     return null;
                                   }),
                             ),
