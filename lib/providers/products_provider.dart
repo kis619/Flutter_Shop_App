@@ -35,7 +35,7 @@ class Products with ChangeNotifier {
           description: prodData['description'],
           price: prodData['price'],
           imageUrl: prodData['imageUrl'],
-          isFavourite: prodData['isFavourite'],
+          isFavourite: prodData['isFavourite'] ?? false,
         ));
       });
       _items = loadedProducts;
@@ -75,11 +75,19 @@ class Products with ChangeNotifier {
     }
   }
 
-  void updateProduct(String productId, Product newProduct) {
-    final prodIdx = _items.indexWhere((element) => element.id == productId);
-    if (prodIdx < 0) {
-      return;
-    }
+  Future<void> updateProduct(String id, Product newProduct) async {
+    final prodIdx = _items.indexWhere((element) => element.id == id);
+    if (prodIdx < 0) return;
+    print(prodIdx);
+    final url = Uri.parse(
+        "https://learning-flutter-72888-default-rtdb.europe-west1.firebasedatabase.app/products/$id.json");
+    await http.patch(url,
+        body: json.encode({
+          'title': newProduct.title,
+          'description': newProduct.description,
+          'imageUrl': newProduct.imageUrl,
+          'price': newProduct.price,
+        }));
     _items[prodIdx] = newProduct;
     notifyListeners();
   }
