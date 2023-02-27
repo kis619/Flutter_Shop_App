@@ -54,34 +54,36 @@ class Products with ChangeNotifier {
     return _items.firstWhere((element) => element.id == id);
   }
 
-  Future<void> addProduct(Product product) {
+  Future<void> addProduct(Product product) async {
     final url = Uri.parse(
-        "https://learning-flutter-72888-default-rtdb.europe-west1.firebasedatabase.app/products.json");
-    return http
-        .post(url,
-            body: json.encode({
-              'title': product.title,
-              'description': product.description,
-              'imageUrl': product.imageUrl,
-              'price': product.price,
-              'isFavourite': product.isFavourite,
-            }))
-        .then((response) {
-      // print(json.decode(response.body));
-      final newProduct = Product(
-          id: json.decode(response.body)['name'],
-          title: product.title,
-          description: product.description,
-          price: product.price,
-          imageUrl: product.imageUrl);
-      _items.add(newProduct);
-      notifyListeners();
-    }).catchError((error) {
-      print("my error message");
-      print(error);
-      print("my error message");
-      throw error;
-    });
+        "https://learning-flutter-72888-default-rtdb.europe-west1.firebasedatabase.app/products.jsoddn");
+    try {
+
+    final response = await http.post(
+      url,
+      body: json.encode({
+        'title': product.title,
+        'description': product.description,
+        'imageUrl': product.imageUrl,
+        'price': product.price,
+        'isFavourite': product.isFavourite,
+      }),
+    );
+    final newProduct = Product(
+        id: json.decode(response.body)['name'],
+        title: product.title,
+        description: product.description,
+        price: product.price,
+        imageUrl: product.imageUrl);
+    _items.add(newProduct);
+    notifyListeners();
+    } catch (error) {
+      // print("my error message");
+      // print(error);
+      // print("my error message");
+      rethrow;
+    }
+
   }
 
   void updateProduct(String productId, Product newProduct) {
