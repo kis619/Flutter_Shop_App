@@ -26,9 +26,11 @@ class Products with ChangeNotifier {
     return _items.firstWhere((element) => element.id == id);
   }
 
-  Future<void> fetchAndSetProducts() async {
+  Future<void> fetchAndSetProducts([bool filterByUser = false]) async {
+    final filterString =
+        filterByUser ? 'orderBy="creatorId"&equalTo="$userId"' : '';
     var url = Uri.parse(
-        "https://learning-flutter-72888-default-rtdb.europe-west1.firebasedatabase.app/products.json?auth=$authToken");
+        'https://learning-flutter-72888-default-rtdb.europe-west1.firebasedatabase.app/products.json?auth=$authToken&$filterString');
     try {
       final response = await http.get(url);
       final data = jsonDecode(response.body);
@@ -40,14 +42,18 @@ class Products with ChangeNotifier {
       final favouriteResponse = await http.get(url);
       final favouriteData = jsonDecode(favouriteResponse.body);
       print(favouriteData);
+      print('\n\n\n');
+      print(data);
+      print('\n\n\n');
       data.forEach((prodId, prodData) {
         loadedProducts.add(Product(
           id: prodId,
-          title: prodData['title'],
+          title: prodData['title'] ?? 'whaaat',
           description: prodData['description'],
           price: prodData['price'],
           imageUrl: prodData['imageUrl'],
-          isFavourite: favouriteData == null ? false : (favouriteData[prodId] ?? false),
+          isFavourite:
+              favouriteData == null ? false : (favouriteData[prodId] ?? false),
         ));
       });
       _items = loadedProducts;
@@ -68,6 +74,7 @@ class Products with ChangeNotifier {
           'description': product.description,
           'imageUrl': product.imageUrl,
           'price': product.price,
+          'creatorId': userId,
         }),
       );
       final newProduct = Product(
