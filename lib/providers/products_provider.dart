@@ -10,8 +10,9 @@ class Products with ChangeNotifier {
   // ignore: prefer_final_fields
   List<Product> _items = [];
   final String? authToken;
+  final String? userId;
 
-  Products(this.authToken, this._items);
+  Products(this.authToken, this.userId, this._items);
 
   List<Product> get items {
     return [..._items];
@@ -26,13 +27,19 @@ class Products with ChangeNotifier {
   }
 
   Future<void> fetchAndSetProducts() async {
-    final url = Uri.parse(
+    var url = Uri.parse(
         "https://learning-flutter-72888-default-rtdb.europe-west1.firebasedatabase.app/products.json?auth=$authToken");
     try {
       final response = await http.get(url);
       final data = jsonDecode(response.body);
       final List<Product> loadedProducts = [];
       if (data == null) return;
+
+      url = Uri.parse(
+          "https://learning-flutter-72888-default-rtdb.europe-west1.firebasedatabase.app/userFavourites/$userId.json?auth=$authToken");
+      final favouriteResponse = await http.get(url);
+      final favouriteData = jsonDecode(favouriteResponse.body);
+      print(favouriteData);
       data.forEach((prodId, prodData) {
         loadedProducts.add(Product(
           id: prodId,
@@ -40,7 +47,7 @@ class Products with ChangeNotifier {
           description: prodData['description'],
           price: prodData['price'],
           imageUrl: prodData['imageUrl'],
-          isFavourite: prodData['isFavourite'] ?? false,
+          isFavourite: favouriteData == null ? false : (favouriteData[prodId] ?? false),
         ));
       });
       _items = loadedProducts;
@@ -61,7 +68,6 @@ class Products with ChangeNotifier {
           'description': product.description,
           'imageUrl': product.imageUrl,
           'price': product.price,
-          'isFavourite': product.isFavourite,
         }),
       );
       final newProduct = Product(
