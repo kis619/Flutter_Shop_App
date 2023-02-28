@@ -41,10 +41,6 @@ class Products with ChangeNotifier {
           "https://learning-flutter-72888-default-rtdb.europe-west1.firebasedatabase.app/userFavourites/$userId.json?auth=$authToken");
       final favouriteResponse = await http.get(url);
       final favouriteData = jsonDecode(favouriteResponse.body);
-      print(favouriteData);
-      print('\n\n\n');
-      print(data);
-      print('\n\n\n');
       data.forEach((prodId, prodData) {
         loadedProducts.add(Product(
           id: prodId,

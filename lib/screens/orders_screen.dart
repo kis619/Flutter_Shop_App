@@ -22,7 +22,6 @@ class OrdersScreen extends StatelessWidget {
           ctx,
           dataSnapshot,
         ) {
-          print('\n\n\n\n\n $dataSnapshot \n\n\n\n\n');
           if (dataSnapshot.connectionState == ConnectionState.waiting) {
             return const Center(
               child: CircularProgressIndicator(),
